@@ -34,49 +34,49 @@ namespace LiverApp
                 // Validation
                 double vAge, vTotBil, vDirBil, vAlkPhos, vAlaAmino, vAspAmino, vTotProt, vAlbumin, vAgRatio;
 
-                if (!double.TryParse(age, out vAge) || vAge < 4 || vAge > 90)
+                if (!double.TryParse(age, out vAge))
                 {
-                    MessageBox.Show("Geçerli bir yaş giriniz (4-90)", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Geçerli bir yaş giriniz", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                if (!double.TryParse(totBil, out vTotBil) || vTotBil < 0.4 || vTotBil > 75.0)
+                if (!double.TryParse(totBil, out vTotBil))
                 {
-                    MessageBox.Show("Toplam Bilirubin 0.4 - 75.0 arasında olmalıdır.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Toplam Bilirubin geçerli bir sayı olmalıdır.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                if (!double.TryParse(dirBil, out vDirBil) || vDirBil < 0.1 || vDirBil > 19.7)
+                if (!double.TryParse(dirBil, out vDirBil))
                 {
-                    MessageBox.Show("Direkt Bilirubin 0.1 - 19.7 arasında olmalıdır.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Direkt Bilirubin geçerli bir sayı olmalıdır.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                if (!double.TryParse(alkPhos, out vAlkPhos) || vAlkPhos < 63 || vAlkPhos > 2110)
+                if (!double.TryParse(alkPhos, out vAlkPhos))
                 {
-                    MessageBox.Show("Alkalin Fosfataz 63 - 2110 arasında olmalıdır.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Alkalin Fosfataz geçerli bir sayı olmalıdır.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                if (!double.TryParse(alaAmino, out vAlaAmino) || vAlaAmino < 10 || vAlaAmino > 2000)
+                if (!double.TryParse(alaAmino, out vAlaAmino))
                 {
-                    MessageBox.Show("Alanin Aminotransferaz 10 - 2000 arasında olmalıdır.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Alanin Aminotransferaz geçerli bir sayı olmalıdır.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                if (!double.TryParse(aspAmino, out vAspAmino) || vAspAmino < 10 || vAspAmino > 4929)
+                if (!double.TryParse(aspAmino, out vAspAmino))
                 {
-                    MessageBox.Show("Aspartat Aminotransferaz 10 - 4929 arasında olmalıdır.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Aspartat Aminotransferaz geçerli bir sayı olmalıdır.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                if (!double.TryParse(totProt, out vTotProt) || vTotProt < 2.7 || vTotProt > 9.6)
+                if (!double.TryParse(totProt, out vTotProt))
                 {
-                    MessageBox.Show("Toplam Proteinler 2.7 - 9.6 arasında olmalıdır.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Toplam Proteinler geçerli bir sayı olmalıdır.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                if (!double.TryParse(albumin, out vAlbumin) || vAlbumin < 0.9 || vAlbumin > 5.5)
+                if (!double.TryParse(albumin, out vAlbumin))
                 {
-                    MessageBox.Show("Albümin 0.9 - 5.5 arasında olmalıdır.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Albümin geçerli bir sayı olmalıdır.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                if (!double.TryParse(agRatio, out vAgRatio) || vAgRatio < 0.3 || vAgRatio > 2.8)
+                if (!double.TryParse(agRatio, out vAgRatio))
                 {
-                    MessageBox.Show("Albümin/Globulin Oranı 0.3 - 2.8 arasında olmalıdır.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Albümin/Globulin Oranı geçerli bir sayı olmalıdır.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LiverApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1fa5bb2c7021e63c5c14c91464834e6dc7c01f08")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3581cb85d696e34433683a34e78f19c71d026d92")]
 [assembly: System.Reflection.AssemblyProductAttribute("LiverApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LiverApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
