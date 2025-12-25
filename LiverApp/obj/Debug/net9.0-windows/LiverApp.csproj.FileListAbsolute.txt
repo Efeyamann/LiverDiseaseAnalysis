@@ -1,0 +1,15 @@
+C:\Users\efeya\Desktop\LiverDiseaseAnalysis\LiverApp\bin\Debug\net9.0-windows\LiverApp.exe
+C:\Users\efeya\Desktop\LiverDiseaseAnalysis\LiverApp\bin\Debug\net9.0-windows\LiverApp.deps.json
+C:\Users\efeya\Desktop\LiverDiseaseAnalysis\LiverApp\bin\Debug\net9.0-windows\LiverApp.runtimeconfig.json
+C:\Users\efeya\Desktop\LiverDiseaseAnalysis\LiverApp\bin\Debug\net9.0-windows\LiverApp.dll
+C:\Users\efeya\Desktop\LiverDiseaseAnalysis\LiverApp\bin\Debug\net9.0-windows\LiverApp.pdb
+C:\Users\efeya\Desktop\LiverDiseaseAnalysis\LiverApp\obj\Debug\net9.0-windows\LiverApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\efeya\Desktop\LiverDiseaseAnalysis\LiverApp\obj\Debug\net9.0-windows\LiverApp.AssemblyInfoInputs.cache
+C:\Users\efeya\Desktop\LiverDiseaseAnalysis\LiverApp\obj\Debug\net9.0-windows\LiverApp.AssemblyInfo.cs
+C:\Users\efeya\Desktop\LiverDiseaseAnalysis\LiverApp\obj\Debug\net9.0-windows\LiverApp.csproj.CoreCompileInputs.cache
+C:\Users\efeya\Desktop\LiverDiseaseAnalysis\LiverApp\obj\Debug\net9.0-windows\LiverApp.sourcelink.json
+C:\Users\efeya\Desktop\LiverDiseaseAnalysis\LiverApp\obj\Debug\net9.0-windows\LiverApp.dll
+C:\Users\efeya\Desktop\LiverDiseaseAnalysis\LiverApp\obj\Debug\net9.0-windows\refint\LiverApp.dll
+C:\Users\efeya\Desktop\LiverDiseaseAnalysis\LiverApp\obj\Debug\net9.0-windows\LiverApp.pdb
+C:\Users\efeya\Desktop\LiverDiseaseAnalysis\LiverApp\obj\Debug\net9.0-windows\LiverApp.genruntimeconfig.cache
+C:\Users\efeya\Desktop\LiverDiseaseAnalysis\LiverApp\obj\Debug\net9.0-windows\ref\LiverApp.dll
