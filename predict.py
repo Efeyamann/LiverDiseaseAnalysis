@@ -35,20 +35,28 @@ def predict(args):
     
     df = pd.DataFrame([features], columns=feature_names)
     
-    # Load model
-    model = XGBClassifier()
-    model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'liver_model.json')
-    model.load_model(model_path)
+    # Load models
+    model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'liver_models.joblib')
+    models = joblib.load(model_path)
     
-    prediction = model.predict(df)[0]
-    probability = model.predict_proba(df)[0][1] # Probability of class 1 (Disease)
+    results = {}
     
-    result = {
-        "Prediction": int(prediction),
-        "Probability": float(probability)
-    }
+    for name, model in models.items():
+        prediction = model.predict(df)[0]
+        try:
+            probability = model.predict_proba(df)[0][1] # Probability of class 1 (Disease)
+        except AttributeError:
+             # Some models might not support predict_proba or need calibration, 
+             # but we configured SVC with probability=True and others support it.
+             # If resizing issues occur (e.g. KNN), this might fail, but for single sample it should be fine.
+             probability = float(prediction) # Fallback
+
+        results[name] = {
+            "Prediction": int(prediction),
+            "Probability": float(probability)
+        }
     
-    print(json.dumps(result))
+    print(json.dumps(results))
 
 if __name__ == "__main__":
     predict(sys.argv[1:])

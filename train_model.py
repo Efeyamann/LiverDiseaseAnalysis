@@ -1,9 +1,5 @@
 import pandas as pd
 import numpy as np
-from xgboost import XGBClassifier
-import joblib
-import os
-
 # Load dataset
 try:
     df = pd.read_csv('Liver Patient Dataset (LPD)_train.csv', encoding='latin1')
@@ -20,7 +16,15 @@ df.columns = [
 ]
 
 # Preprocessing
-df['Albumin_Globulin_Orani'] = df['Albumin_Globulin_Orani'].fillna(df['Albumin_Globulin_Orani'].median())
+# Fill missing values for all numeric columns
+numeric_cols = df.select_dtypes(include=['float64', 'int64']).columns
+for col in numeric_cols:
+    df[col] = df[col].fillna(df[col].median())
+
+# Fill missing values for categorical column (Cinsiyet)
+if df['Cinsiyet'].isnull().any():
+    df['Cinsiyet'] = df['Cinsiyet'].fillna(df['Cinsiyet'].mode()[0])
+
 df['Cinsiyet'] = df['Cinsiyet'].map({'Male': 1, 'Female': 0})
 df['Sonuç'] = df['Sonuç'].map({1: 1, 2: 0}) # 1: Disease, 0: No Disease (mapped from 2)
 
@@ -28,17 +32,46 @@ df['Sonuç'] = df['Sonuç'].map({1: 1, 2: 0}) # 1: Disease, 0: No Disease (mappe
 X = df.drop('Sonuç', axis=1)
 y = df['Sonuç']
 
-# Train Model
-# Using parameters from notebook
-model = XGBClassifier(
+# Train Models
+models = {}
+
+# 1. Random Forest
+from sklearn.ensemble import RandomForestClassifier
+rf = RandomForestClassifier(n_estimators=500, max_depth=10, random_state=42)
+rf.fit(X, y)
+models['Random Forest'] = rf
+
+# 2. XGBoost
+from xgboost import XGBClassifier
+xgb = XGBClassifier(
     n_estimators=500,
     max_depth=6,
     learning_rate=0.05,
     eval_metric='logloss',
     random_state=42
 )
-model.fit(X, y)
+xgb.fit(X, y)
+models['XGBoost'] = xgb
 
-# Save Model
-model.save_model('liver_model.json')
-print("Model saved to liver_model.json")
+# 3. Logistic Regression
+from sklearn.linear_model import LogisticRegression
+lr = LogisticRegression(max_iter=1000, random_state=42)
+lr.fit(X, y)
+models['Logistic Regression'] = lr
+
+# 4. SVC
+from sklearn.svm import SVC
+svc = SVC(probability=True, random_state=42)
+svc.fit(X, y)
+models['SVC'] = svc
+
+# 5. KNN
+from sklearn.neighbors import KNeighborsClassifier
+knn = KNeighborsClassifier(n_neighbors=5)
+knn.fit(X, y)
+models['KNN'] = knn
+
+# Save Models
+import joblib
+joblib.dump(models, 'liver_models.joblib')
+print("All 5 models saved to liver_models.joblib")

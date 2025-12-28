@@ -123,16 +123,34 @@ namespace LiverApp
                             {
                                 result = result.Substring(jsonStart, jsonEnd - jsonStart + 1);
                                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                                var predictionResult = JsonSerializer.Deserialize<PredictionResult>(result, options);
+                                
+                                // Deserialize as Dictionary
+                                var predictionResults = JsonSerializer.Deserialize<Dictionary<string, PredictionResult>>(result, options);
 
-                                if (predictionResult.Prediction == 1)
+                                string outputText = "Sonuçlar:\n";
+                                int highRiskCount = 0;
+
+                                foreach (var kvp in predictionResults)
                                 {
-                                    this.lblResult.Text = $"Sonuç: HASTALIK RİSKİ VAR\n(Olasılık: %{predictionResult.Probability * 100:F2})";
+                                    string modelName = kvp.Key;
+                                    var pred = kvp.Value;
+                                    string status = pred.Prediction == 1 ? "RİSK VAR" : "SAĞLIKLI";
+                                    double prob = pred.Prediction == 1 ? pred.Probability : (1 - pred.Probability);
+                                    
+                                    outputText += $"{modelName}: {status} (%{prob * 100:F1})\n";
+                                    
+                                    if (pred.Prediction == 1) highRiskCount++;
+                                }
+
+                                this.lblResult.Text = outputText;
+                                
+                                // Set color based on majority vote
+                                if (highRiskCount >= 3)
+                                {
                                     this.lblResult.ForeColor = Color.Red;
                                 }
                                 else
                                 {
-                                    this.lblResult.Text = $"Sonuç: SAĞLIKLI GÖRÜNÜYOR\n(Olasılık: %{(1 - predictionResult.Probability) * 100:F2})";
                                     this.lblResult.ForeColor = Color.Green;
                                 }
                             }
