@@ -32,6 +32,13 @@ df['Sonuç'] = df['Sonuç'].map({1: 1, 2: 0}) # 1: Disease, 0: No Disease (mappe
 X = df.drop('Sonuç', axis=1)
 y = df['Sonuç']
 
+# Balance dataset using SMOTE
+from imblearn.over_sampling import SMOTE
+print(f"Original class distribution:\n{y.value_counts()}")
+smote = SMOTE(random_state=42)
+X, y = smote.fit_resample(X, y)
+print(f"Resampled class distribution:\n{y.value_counts()}")
+
 # Train Models
 models = {}
 
