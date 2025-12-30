@@ -144,8 +144,8 @@ namespace LiverApp
 
                                 this.lblResult.Text = outputText;
                                 
-                                // Set color based on majority vote
-                                if (highRiskCount >= 3)
+                                // Set color based on result (now only 1 model)
+                                if (highRiskCount > 0)
                                 {
                                     this.lblResult.ForeColor = Color.Red;
                                 }

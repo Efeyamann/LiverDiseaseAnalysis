@@ -1,10 +1,15 @@
 import pandas as pd
 import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from imblearn.over_sampling import SMOTE
+import joblib
+
 # Load dataset
 try:
     df = pd.read_csv('Liver Patient Dataset (LPD)_train.csv', encoding='latin1')
 except FileNotFoundError:
-    # Fallback if local file not found (though it should be)
+    # Fallback if local file not found
     url = "https://raw.githubusercontent.com/Efeyamann/LiverDiseaseAnalysis/main/Liver%20Patient%20Dataset%20(LPD)_train.csv"
     df = pd.read_csv(url, encoding='latin1')
 
@@ -32,20 +37,23 @@ df['Sonuç'] = df['Sonuç'].map({1: 1, 2: 0}) # 1: Disease, 0: No Disease (mappe
 X = df.drop('Sonuç', axis=1)
 y = df['Sonuç']
 
-# Balance dataset using SMOTE
-from imblearn.over_sampling import SMOTE
-print(f"Original class distribution:\n{y.value_counts()}")
-smote = SMOTE(random_state=42)
-X, y = smote.fit_resample(X, y)
-print(f"Resampled class distribution:\n{y.value_counts()}")
+# Split data FIRST validation
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
-# Train Models
+# Balance training dataset using SMOTE
+print(f"Original train class distribution:\n{y_train.value_counts()}")
+smote = SMOTE(random_state=42)
+X_train_res, y_train_res = smote.fit_resample(X_train, y_train)
+print(f"Resampled train class distribution:\n{y_train_res.value_counts()}")
+
+# Models dictionary
 models = {}
+accuracies = {}
 
 # 1. Random Forest
 from sklearn.ensemble import RandomForestClassifier
 rf = RandomForestClassifier(n_estimators=500, max_depth=10, random_state=42)
-rf.fit(X, y)
+rf.fit(X_train_res, y_train_res)
 models['Random Forest'] = rf
 
 # 2. XGBoost
@@ -57,28 +65,51 @@ xgb = XGBClassifier(
     eval_metric='logloss',
     random_state=42
 )
-xgb.fit(X, y)
+xgb.fit(X_train_res, y_train_res)
 models['XGBoost'] = xgb
 
 # 3. Logistic Regression
 from sklearn.linear_model import LogisticRegression
 lr = LogisticRegression(max_iter=1000, random_state=42)
-lr.fit(X, y)
+lr.fit(X_train_res, y_train_res)
 models['Logistic Regression'] = lr
 
 # 4. SVC
 from sklearn.svm import SVC
 svc = SVC(probability=True, random_state=42)
-svc.fit(X, y)
+svc.fit(X_train_res, y_train_res)
 models['SVC'] = svc
 
 # 5. KNN
 from sklearn.neighbors import KNeighborsClassifier
 knn = KNeighborsClassifier(n_neighbors=5)
-knn.fit(X, y)
+knn.fit(X_train_res, y_train_res)
 models['KNN'] = knn
 
-# Save Models
-import joblib
-joblib.dump(models, 'liver_models.joblib')
-print("All 5 models saved to liver_models.joblib")
+# Evaluate and find best model
+print("\nModel Evaluation:")
+best_model_name = ""
+best_acc = 0.0
+
+for name, model in models.items():
+    y_pred = model.predict(X_test)
+    acc = accuracy_score(y_test, y_pred)
+    accuracies[name] = acc
+    print(f"{name}: {acc:.4f}")
+    
+    if acc > best_acc:
+        best_acc = acc
+        best_model_name = name
+
+print(f"\nBest Model: {best_model_name} with Accuracy: {best_acc:.4f}")
+
+# Save Models and Metadata
+# We save a dictionary containing the models and the best model name
+save_data = {
+    'models': models,
+    'best_model_name': best_model_name,
+    'accuracies': accuracies
+}
+
+joblib.dump(save_data, 'liver_models.joblib')
+print("Models and metadata saved to liver_models.joblib")

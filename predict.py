@@ -37,11 +37,24 @@ def predict(args):
     
     # Load models
     model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'liver_models.joblib')
-    models = joblib.load(model_path)
+    saved_data = joblib.load(model_path)
+    
+    # Check if we have the new structure or old
+    if isinstance(saved_data, dict) and 'best_model_name' in saved_data:
+        models = saved_data['models']
+        best_model_name = saved_data['best_model_name']
+        
+        # We only want to predict using the best model
+        # Create a new dictionary with just the best model for the loop below (or just simplify logic)
+        target_models = {best_model_name: models[best_model_name]}
+    else:
+        # Fallback for old format if someone runs this without retraining
+        models = saved_data
+        target_models = models
     
     results = {}
     
-    for name, model in models.items():
+    for name, model in target_models.items():
         prediction = model.predict(df)[0]
         try:
             probability = model.predict_proba(df)[0][1] # Probability of class 1 (Disease)
